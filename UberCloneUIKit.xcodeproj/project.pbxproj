@@ -9,19 +9,19 @@
 /* Begin PBXBuildFile section */
 		3C58FF7E272DDF090011B042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58FF7D272DDF090011B042 /* AppDelegate.swift */; };
 		3C58FF80272DDF090011B042 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58FF7F272DDF090011B042 /* SceneDelegate.swift */; };
-		3C58FF82272DDF090011B042 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58FF81272DDF090011B042 /* ViewController.swift */; };
 		3C58FF87272DDF120011B042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C58FF86272DDF120011B042 /* Assets.xcassets */; };
 		3C58FF8A272DDF120011B042 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C58FF88272DDF120011B042 /* LaunchScreen.storyboard */; };
+		3C58FF9A272DE2080011B042 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58FF99272DE2080011B042 /* LoginController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3C58FF7A272DDF090011B042 /* UberCloneUIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UberCloneUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C58FF7D272DDF090011B042 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C58FF7F272DDF090011B042 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3C58FF81272DDF090011B042 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3C58FF86272DDF120011B042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C58FF89272DDF120011B042 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C58FF8B272DDF120011B042 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C58FF99272DE2080011B042 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +54,54 @@
 		3C58FF7C272DDF090011B042 /* UberCloneUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				3C58FF97272DE15B0011B042 /* Model */,
+				3C58FF96272DE1590011B042 /* View */,
+				3C58FF95272DE1560011B042 /* Controller */,
+				3C58FF94272DE1540011B042 /* Service */,
+				3C58FF93272DE1520011B042 /* Utils */,
 				3C58FF7D272DDF090011B042 /* AppDelegate.swift */,
 				3C58FF7F272DDF090011B042 /* SceneDelegate.swift */,
-				3C58FF81272DDF090011B042 /* ViewController.swift */,
 				3C58FF86272DDF120011B042 /* Assets.xcassets */,
 				3C58FF88272DDF120011B042 /* LaunchScreen.storyboard */,
 				3C58FF8B272DDF120011B042 /* Info.plist */,
 			);
 			path = UberCloneUIKit;
+			sourceTree = "<group>";
+		};
+		3C58FF93272DE1520011B042 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		3C58FF94272DE1540011B042 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		3C58FF95272DE1560011B042 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3C58FF99272DE2080011B042 /* LoginController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3C58FF96272DE1590011B042 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3C58FF97272DE15B0011B042 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,8 +173,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C58FF82272DDF090011B042 /* ViewController.swift in Sources */,
 				3C58FF7E272DDF090011B042 /* AppDelegate.swift in Sources */,
+				3C58FF9A272DE2080011B042 /* LoginController.swift in Sources */,
 				3C58FF80272DDF090011B042 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
