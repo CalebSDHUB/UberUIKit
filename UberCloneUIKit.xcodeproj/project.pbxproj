@@ -14,6 +14,7 @@
 		3C58FF9A272DE2080011B042 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58FF99272DE2080011B042 /* LoginController.swift */; };
 		3C58FF9D272DEAF20011B042 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58FF9C272DEAF20011B042 /* Extensions.swift */; };
 		3C8C6A23273DCCF700A70D06 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A22273DCCF700A70D06 /* SignUpController.swift */; };
+		3C8C6A26273DDDFF00A70D06 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A25273DDDFF00A70D06 /* AuthButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		3C58FF99272DE2080011B042 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		3C58FF9C272DEAF20011B042 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3C8C6A22273DCCF700A70D06 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
+		3C8C6A25273DDDFF00A70D06 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		3C58FF96272DE1590011B042 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3C8C6A25273DDDFF00A70D06 /* AuthButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C8C6A23273DCCF700A70D06 /* SignUpController.swift in Sources */,
+				3C8C6A26273DDDFF00A70D06 /* AuthButton.swift in Sources */,
 				3C58FF7E272DDF090011B042 /* AppDelegate.swift in Sources */,
 				3C58FF9A272DE2080011B042 /* LoginController.swift in Sources */,
 				3C58FF80272DDF090011B042 /* SceneDelegate.swift in Sources */,
