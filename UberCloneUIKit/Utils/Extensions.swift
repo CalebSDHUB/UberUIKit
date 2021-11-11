@@ -50,7 +50,7 @@ extension UIView {
         }
         
         if let bottom = bottom {
-            bottom.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
+            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
         }
         
         if let right = right {
