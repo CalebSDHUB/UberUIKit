@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SignUpController: UIViewController {
     
@@ -67,6 +68,7 @@ class SignUpController: UIViewController {
         let button = AuthButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         return button
     }()
 
@@ -91,6 +93,32 @@ class SignUpController: UIViewController {
     }
     
     // MARK: - Selectors
+    
+    @objc private func handleSignUp() {
+        
+        let accountTypeIndex = accountTypeSegmentedControl.selectedSegmentIndex
+        
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text,
+              let fullname = fullnameTextField.text
+        else { return }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            
+            if let error = error {
+                print("DEBUG: Failed to register user with error - \(error.localizedDescription)")
+                return
+            }
+            
+            guard let uid = result?.user.uid else { return }
+            
+            let values = ["email": email, "fullname": fullname, "accountType": accountTypeIndex] as [String : Any]
+            
+            Database.database().reference().child("users").child(uid).updateChildValues(values) { (error, ref) in
+                self.dismiss(animated: true)
+            }
+        }
+    }
     
     @objc private func handleShowLogin() {
         navigationController?.popViewController(animated: true)
