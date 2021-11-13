@@ -28,9 +28,10 @@ extension UIView {
         imageView.alpha = 0.87
         view.addSubview(imageView)
         
+        imageView.centerY(inView: view)
+        imageView.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
+        
         if let textField = textField {
-            imageView.centerY(inView: view)
-            imageView.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
             
             view.addSubview(textField)
             textField.centerY(inView: view)
@@ -38,11 +39,9 @@ extension UIView {
         }
         
         if let sc = segmentedControl {
-            imageView.centerY(inView: view)
-            imageView.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
             
             view.addSubview(sc)
-//            sc.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 8, paddingRight: 8)
+
             sc.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 50, paddingRight: 50)
             sc.centerY(inView: view, constant: 0)
         }
