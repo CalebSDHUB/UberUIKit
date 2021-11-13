@@ -15,9 +15,12 @@ class HomeController: UIViewController {
     
     private let mapView = MKMapView()
     
+    private let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
+        enableLocationServices()
         configureUI()
 //        signOut()
     }
@@ -45,11 +48,51 @@ class HomeController: UIViewController {
     
     // MARK: - Helper functions
     
-    func configureUI() {
-
-        view.backgroundColor = .red
+    private func configureUI() {
+        configureMapView()
+    }
+    
+    private func configureMapView() {
         
         view.addSubview(mapView)
         mapView.frame = view.frame
+        
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+    }
+}
+
+// MARK: - LocationsServices
+
+extension HomeController: CLLocationManagerDelegate {
+    private func enableLocationServices() {
+        
+        locationManager.delegate = self
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            print("DEBUG: Not determined")
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            break
+        case .authorizedAlways:
+            print("DEBUG: Auth always...")
+            locationManager.startUpdatingLocation()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        case .authorizedWhenInUse:
+            print("DEBUG: Auth when in use...")
+            locationManager.requestAlwaysAuthorization()
+        @unknown default:
+            break
+        }
+    }
+    
+    
+    // Make sure that we ask the user if they want use "AlwaysAuthorization".
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        
+        if manager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.requestAlwaysAuthorization()
+        }
     }
 }
