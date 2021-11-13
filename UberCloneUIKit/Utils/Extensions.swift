@@ -19,6 +19,8 @@ extension UIView {
     
     func inputContainerView(image: UIImage, textField: UITextField? = nil, segmentedControl: UISegmentedControl? = nil) -> UIView {
         
+        translatesAutoresizingMaskIntoConstraints = false
+        
         let view = UIView()
         
         let imageView = UIImageView()
@@ -36,11 +38,13 @@ extension UIView {
         }
         
         if let sc = segmentedControl {
-            imageView.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: -8, paddingLeft: 8, width: 24, height: 24)
+            imageView.centerY(inView: view)
+            imageView.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
             
             view.addSubview(sc)
-            sc.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 8, paddingRight: 8)
-            sc.centerY(inView: view, constant: 20)
+//            sc.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 8, paddingRight: 8)
+            sc.anchor(left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 50, paddingRight: 50)
+            sc.centerY(inView: view, constant: 0)
         }
         
         let separatorView = UIView()
@@ -90,11 +94,28 @@ extension UIView {
     }
     
     func centerX(inView view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
-    func centerY(inView view: UIView, constant: CGFloat = 0) {
+    func centerY(inView view: UIView, leftAnchor: NSLayoutXAxisAnchor? = nil, paddingLeft: CGFloat = 0, constant: CGFloat = 0) {
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
         centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: constant).isActive = true
+        
+        if let left = leftAnchor {
+            anchor(left: left, paddingLeft: paddingLeft)
+        }
+    }
+    
+    func setDimensions(height: CGFloat, width: CGFloat) {
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+        widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 }
 
