@@ -15,7 +15,8 @@ class HomeController: UIViewController {
     
     private let mapView = MKMapView()
     private let locationManager = CLLocationManager()
-    private let inputActionView = LocationInputActivationView()
+    private let inputActivationView = LocationInputActivationView()
+    private let locationInputView = LocationInputView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,16 +50,20 @@ class HomeController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .black
+        inputActivationView.delegate = self
+        locationInputView.delegate = self
         
         configureMapView()
         configureNavigationBar()
         
-        view.addSubview(inputActionView)
-        inputActionView.centerX(inView: view)
-        inputActionView.setDimensions(height: 50, width: view.frame.width - 64)
-        inputActionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
-        
-        
+        view.addSubview(inputActivationView)
+        inputActivationView.centerX(inView: view)
+        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
+        inputActivationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        inputActivationView.alpha = 0
+        UIView.animate(withDuration: 2) {
+            self.inputActivationView.alpha = 1
+        }
     }
     
     private func configureNavigationBar() {
@@ -71,6 +76,18 @@ class HomeController: UIViewController {
         mapView.frame = view.frame
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
+    }
+    private func configureLocationInputView() {
+        view.addSubview(locationInputView)
+        locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
+        locationInputView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+            self.locationInputView.alpha = 1
+        } completion: { _ in
+            print("DEBUG: Present table view...")
+        }
+
     }
 }
 
@@ -105,5 +122,29 @@ extension HomeController: CLLocationManagerDelegate {
         if manager.authorizationStatus == .authorizedWhenInUse {
             locationManager.requestAlwaysAuthorization()
         }
+    }
+}
+
+// MARK: - LocationInputActivationViewDelegate
+
+extension HomeController: LocationInputActivationViewDelegate {
+    func presentLocationInputView() {
+        inputActivationView.alpha = 0
+        configureLocationInputView()
+    }
+}
+
+// MARK: - LocationInputViewDelegate
+
+extension HomeController: LocationInputViewDelegate {
+    func dismissLocationInputView() {
+        UIView.animate(withDuration: 0.3) {
+            self.locationInputView.alpha = 0
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3) {
+                self.inputActivationView.alpha = 1
+            }
+        }
+
     }
 }
