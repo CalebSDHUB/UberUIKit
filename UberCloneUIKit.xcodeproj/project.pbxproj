@@ -19,7 +19,7 @@
 		3C8C6A3F273FFE7400A70D06 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A3E273FFE6E00A70D06 /* HomeController.swift */; };
 		3C8C6A44274052E900A70D06 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A43274052E900A70D06 /* LocationInputActivationView.swift */; };
 		3C8C6A4B2740810E00A70D06 /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A4A2740810D00A70D06 /* LocationInputView.swift */; };
-		3C8C6A4E2742D20400A70D06 /* LocationInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A4D2742D20400A70D06 /* LocationInputCell.swift */; };
+		3C8C6A4E2742D20400A70D06 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A4D2742D20400A70D06 /* LocationCell.swift */; };
 		3C8C6A512743038000A70D06 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A502743037F00A70D06 /* Service.swift */; };
 		3C8C6A542743102800A70D06 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A532743102800A70D06 /* User.swift */; };
 		3C8C6A572743171D00A70D06 /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8C6A562743171D00A70D06 /* LocationHandler.swift */; };
@@ -42,7 +42,7 @@
 		3C8C6A3E273FFE6E00A70D06 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		3C8C6A43274052E900A70D06 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		3C8C6A4A2740810D00A70D06 /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
-		3C8C6A4D2742D20400A70D06 /* LocationInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputCell.swift; sourceTree = "<group>"; };
+		3C8C6A4D2742D20400A70D06 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		3C8C6A502743037F00A70D06 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		3C8C6A532743102800A70D06 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3C8C6A562743171D00A70D06 /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 				3C8C6A25273DDDFF00A70D06 /* AuthButton.swift */,
 				3C8C6A43274052E900A70D06 /* LocationInputActivationView.swift */,
 				3C8C6A4A2740810D00A70D06 /* LocationInputView.swift */,
-				3C8C6A4D2742D20400A70D06 /* LocationInputCell.swift */,
+				3C8C6A4D2742D20400A70D06 /* LocationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,7 +291,7 @@
 				3C8C6A542743102800A70D06 /* User.swift in Sources */,
 				3C8C6A512743038000A70D06 /* Service.swift in Sources */,
 				3C58FF9D272DEAF20011B042 /* Extensions.swift in Sources */,
-				3C8C6A4E2742D20400A70D06 /* LocationInputCell.swift in Sources */,
+				3C8C6A4E2742D20400A70D06 /* LocationCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

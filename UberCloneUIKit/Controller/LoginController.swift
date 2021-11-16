@@ -81,9 +81,7 @@ class LoginController: UIViewController {
                 print("DEBUG: Failed to log user in with error - \(error.localizedDescription)")
                 return
             }
-
             self.dismiss(animated: true)
-            
         }
     }
     
