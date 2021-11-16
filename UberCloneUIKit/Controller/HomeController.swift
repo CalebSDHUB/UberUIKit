@@ -29,13 +29,20 @@ class HomeController: UIViewController {
         enableLocationServices()
         configureUI()
         fetchUserData()
-        signOut()
+        fetchDrivers()
+//        signOut()
     }
     
     // MARK: - API
     
+    private func fetchDrivers() {
+        guard let location = locationManager?.location else { return }
+        Service.shared.fetchDrivers(location: location)
+    }
+    
     private func fetchUserData() {
-        Service.shared.fetchUserData { user in
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        Service.shared.fetchUserData(uid: currentUid) { user in
             self.user = user
         }
     }
