@@ -22,7 +22,8 @@ struct Service {
         
         REF_USERS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
             guard let dictionary = snapshot.value as? [String: Any] else { return }
-             let user = User(dictionary: dictionary)
+            let suid = snapshot.key
+            let user = User(uid: suid, dictionary: dictionary)
             completion(user)
         }
     }
@@ -31,9 +32,12 @@ struct Service {
         let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
         
         REF_DRIVER_LOCATIONS.observe(.value) { (snapshot) in
+            
             geofire.query(at: location, withRadius: 50).observe(.keyEntered, with: { (uid, location) in
                 Service.shared.fetchUserData(uid: uid, completion: { (user) in
-                    completion(user)
+                    var driver = user
+                    driver.location = location
+                    completion(driver)
                 })
             })
         }
