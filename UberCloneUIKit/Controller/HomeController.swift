@@ -23,6 +23,7 @@ class HomeController: UIViewController {
     // MARK: - Properties
     
     private let mapView = MKMapView()
+    private let rideActionView = RideActionView()
     private let locationManager = LocationHandler.shared.locationManager
     private let inputActivationView = LocationInputActivationView()
     private let locationInputView = LocationInputView()
@@ -40,6 +41,7 @@ class HomeController: UIViewController {
     }()
     
     private final let locationInputViewHeight: CGFloat = 200
+    private final let rideActionViewHeight: CGFloat = 300
     
     private var actionButtonConfig = ActionButtonConfiguration()
     
@@ -65,6 +67,7 @@ class HomeController: UIViewController {
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
                 self.configureActionButton(config: .showMenu)
+                self.animateRideActionView(shouldShow: false)
             }
         }
     }
@@ -151,6 +154,7 @@ class HomeController: UIViewController {
         
         configureMapView()
         configureNavigationBar()
+        configureRideActionView()
         
         view.addSubview(actionButton)
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 20, width: 30, height: 30)
@@ -191,6 +195,11 @@ class HomeController: UIViewController {
                 self.tableView.frame.origin.y = self.locationInputViewHeight
             }
         }
+    }
+    
+    private func configureRideActionView() {
+        view.addSubview(rideActionView)
+        rideActionView.frame = CGRect(x: 0, y: view.frame.height , width: view.frame.width, height: rideActionViewHeight)
     }
     
     private func configureTableView() {
@@ -243,6 +252,15 @@ class HomeController: UIViewController {
         
         if mapView.overlays.count > 0 {
             mapView.removeOverlay(mapView.overlays[0])
+        }
+    }
+    
+    private func animateRideActionView(shouldShow: Bool) {
+        
+        let yOrigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight : self.view.frame.height
+        
+        UIView.animate(withDuration: 0.3) {
+            self.rideActionView.frame.origin.y = yOrigin
         }
     }
 }
@@ -367,6 +385,8 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             let annotations = self.mapView.annotations.filter( {!$0.isKind(of: DriverAnnotation.self)} )
 
             self.mapView.showAnnotations(annotations, animated: true)
+            
+            self.animateRideActionView(shouldShow: true)
         }
     }
 }
