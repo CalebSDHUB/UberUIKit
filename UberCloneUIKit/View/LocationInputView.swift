@@ -67,7 +67,7 @@ class LocationInputView: UIView {
         return tf
     }()
     
-    private lazy var destinationLocationTextField: UITextField = {
+    lazy var destinationLocationTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Enter a destination..."
         tf.backgroundColor = .lightGray

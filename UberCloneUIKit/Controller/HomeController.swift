@@ -28,6 +28,7 @@ class HomeController: UIViewController {
     private let locationInputView = LocationInputView()
     private let tableView = UITableView()
     private var searchResults = [MKPlacemark]()
+    private var route: MKRoute?
     
     private var user: User? { didSet {locationInputView.user = user} }
     
@@ -58,11 +59,8 @@ class HomeController: UIViewController {
             print("DEBUG: Handle show menu...")
         case .dismissActionView:
             
-            mapView.annotations.forEach { annotation in
-                if let anno = annotation as? MKPointAnnotation {
-                    mapView.removeAnnotation(anno)
-                }
-            }
+            removeAnnotationAndOverlays()
+            mapView.showAnnotations(mapView.annotations, animated: true)
             
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
@@ -217,6 +215,36 @@ class HomeController: UIViewController {
             self.locationInputView.removeFromSuperview()
         }, completion: completion)
     }
+    
+    private func generatePolyLine(toDestination destination: MKMapItem) {
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem.forCurrentLocation()
+        request.destination = destination
+        request.transportType = .automobile
+        
+        let directionRequest = MKDirections(request: request)
+        
+        directionRequest.calculate { (response, error) in
+            guard let response = response else { return }
+            self.route = response.routes[0]
+            guard let polyline = self.route?.polyline else { return }
+            self.mapView.addOverlay(polyline)
+        }
+        
+    }
+    
+    private func removeAnnotationAndOverlays() {
+        mapView.annotations.forEach { annotation in
+            if let anno = annotation as? MKPointAnnotation {
+                mapView.removeAnnotation(anno)
+            }
+        }
+        
+        if mapView.overlays.count > 0 {
+            mapView.removeOverlay(mapView.overlays[0])
+        }
+    }
 }
 
 // MARK: - LocationsServices
@@ -253,6 +281,7 @@ extension HomeController: LocationInputActivationViewDelegate {
     func presentLocationInputView() {
         inputActivationView.alpha = 0
         configureLocationInputView()
+        locationInputView.destinationLocationTextField.becomeFirstResponder()
     }
 }
 
@@ -323,14 +352,21 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let selectedPlacemark = searchResults[indexPath.row]
+        let destination = MKMapItem(placemark: selectedPlacemark)
         
         configureActionButton(config: .dismissActionView)
+        
+        generatePolyLine(toDestination: destination)
         
         dismissLocationView { _ in
             let annotation = MKPointAnnotation()
             annotation.coordinate = selectedPlacemark.coordinate
             self.mapView.addAnnotation(annotation)
             self.mapView.selectAnnotation(annotation, animated: true)
+            
+            let annotations = self.mapView.annotations.filter( {!$0.isKind(of: DriverAnnotation.self)} )
+
+            self.mapView.showAnnotations(annotations, animated: true)
         }
     }
 }
@@ -343,5 +379,15 @@ extension HomeController: MKMapViewDelegate {
             return view
         }
         return nil
+    }
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let route = self.route {
+            let polyline = route.polyline
+            let lineRenderer = MKPolylineRenderer(overlay: polyline)
+            lineRenderer.strokeColor = .mainBlueTint
+            lineRenderer.lineWidth = 4
+            return lineRenderer
+        }
+        return MKOverlayRenderer()
     }
 }
