@@ -70,7 +70,6 @@ class LoginController: UIViewController {
     // MARK: - Selectors
     
     @objc private func handleLogin() {
-        
         guard let email = emailTextField.text,
               let password = passwordTextField.text
         else { return }

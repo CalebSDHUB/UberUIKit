@@ -31,7 +31,15 @@ class HomeController: UIViewController {
     private var searchResults = [MKPlacemark]()
     private var route: MKRoute?
     
-    private var user: User? { didSet {locationInputView.user = user} }
+    private var user: User? {
+        didSet {
+            locationInputView.user = user
+            if user?.accountType == .passenger {
+                fetchDrivers()
+                configureLocationInputActivationView()
+            }
+        }
+    }
     
     private let actionButton: UIButton = {
         let button = UIButton(type: .system)
@@ -45,12 +53,19 @@ class HomeController: UIViewController {
     
     private var actionButtonConfig = ActionButtonConfiguration()
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         enableLocationServices()
         configureUI()
 //        signOut()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkIfUserIsLoggedIn()
     }
     
     // MARK: - Selectors
@@ -113,7 +128,7 @@ class HomeController: UIViewController {
             self.present(nav, animated: true)
         } else {
             print("DEBUG: Already logged in...")
-            configure()
+            fetchUserData()
         }
     }
     
@@ -142,15 +157,12 @@ class HomeController: UIViewController {
         }
     }
     
-    private func configure() {
-        fetchUserData()
-        fetchDrivers()
-    }
-    
     private func configureUI() {
         view.backgroundColor = .black
-        inputActivationView.delegate = self
         locationInputView.delegate = self
+        rideActionView.delegate = self
+        inputActivationView.delegate = self
+        
         
         configureMapView()
         configureNavigationBar()
@@ -159,16 +171,22 @@ class HomeController: UIViewController {
         view.addSubview(actionButton)
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 20, width: 30, height: 30)
         
-        view.addSubview(inputActivationView)
-        inputActivationView.centerX(inView: view)
-        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
-        inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 32)
-        inputActivationView.alpha = 0
-        UIView.animate(withDuration: 2) {
+        UIView.animate(withDuration: 0.3) {
             self.inputActivationView.alpha = 1
         }
         
         configureTableView()
+    }
+    
+    private func configureLocationInputActivationView() {
+        view.addSubview(inputActivationView)
+        inputActivationView.centerX(inView: view)
+        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
+        inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 32)
+        
+        UIView.animate(withDuration: 0.5) {
+            self.inputActivationView.alpha = 1
+        }
     }
     
     private func configureNavigationBar() {
@@ -414,5 +432,19 @@ extension HomeController: MKMapViewDelegate {
             return lineRenderer
         }
         return MKOverlayRenderer()
+    }
+}
+
+extension HomeController: RideActionViewDelegate {
+    func uploadTrip(_ view: RideActionView) {
+        guard let pickupcoordinates = locationManager?.location?.coordinate else { return }
+        guard let destinationCoordinates = view.destination?.coordinate else { return }
+        
+        Service.shared.uploadTrip(pickupcoordinates, destinationCoordinates) { (error, ref) in
+            if let error = error {
+                print("DEBUG: Failed to upload trip with error \(error)")
+            }
+            print("DEBUG: Did upload trip successfully")
+        }
     }
 }

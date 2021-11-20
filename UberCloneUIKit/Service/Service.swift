@@ -13,6 +13,7 @@ struct Service {
     
     let REF_USERS = Database.database().reference().child("users")
     let REF_DRIVER_LOCATIONS = Database.database().reference().child("driver-locations")
+    let REF_TRIPS = Database.database().reference().child("trips")
     
     static var shared = Service()
     
@@ -41,5 +42,19 @@ struct Service {
                 })
             })
         }
+    }
+    
+    func uploadTrip(_ pickupCoordinates: CLLocationCoordinate2D, _ destinationCoordinates: CLLocationCoordinate2D, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let pickupArray = [pickupCoordinates.latitude, pickupCoordinates.longitude]
+        let destinationArray = [destinationCoordinates.latitude, destinationCoordinates.longitude]
+        
+        let values = [
+            "pickupCoordinates": pickupArray,
+            "destinationCoordinates": destinationArray,
+            "state": TripState.requested.rawValue
+        ] as [String : Any]
+        REF_TRIPS.child(uid).updateChildValues(values, withCompletionBlock: completion)
     }
 }
