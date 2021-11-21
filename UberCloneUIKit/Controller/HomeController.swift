@@ -30,6 +30,7 @@ class HomeController: UIViewController {
     private let tableView = UITableView()
     private var searchResults = [MKPlacemark]()
     private var route: MKRoute?
+    private var notLogin: Bool = true
     
     private var user: User? {
         didSet {
@@ -37,8 +38,20 @@ class HomeController: UIViewController {
             if user?.accountType == .passenger {
                 fetchDrivers()
                 configureLocationInputActivationView()
+            } else {
+                observeTrips()
             }
         }
+    }
+    
+    private var trip: Trip? {
+        didSet {
+            guard let trip = trip else { return }
+            let controller = PickupController(trip: trip)
+            controller.modalPresentationStyle = .fullScreen
+            self.present(controller, animated: true)
+        }
+        
     }
     
     private let actionButton: UIButton = {
@@ -65,7 +78,10 @@ class HomeController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        checkIfUserIsLoggedIn()
+        if notLogin {
+            checkIfUserIsLoggedIn()
+            notLogin.toggle()
+        }
     }
     
     // MARK: - Selectors
@@ -111,6 +127,12 @@ class HomeController: UIViewController {
             if !driverIsVisible {
                 self.mapView.addAnnotation(annotation)
             }
+        }
+    }
+    
+    private func observeTrips() {
+        Service.shared.observeTrips { trip in
+            self.trip = trip
         }
     }
     
